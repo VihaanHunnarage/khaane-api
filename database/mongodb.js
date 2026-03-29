@@ -15,6 +15,9 @@ async function connectDB() {
     client = new MongoClient(uri, {
       maxPoolSize: 10,
       minPoolSize: 5,
+      tls: true,
+      tlsAllowInvalidCertificates: false,
+      serverSelectionTimeoutMS: 5000
     });
     
     await client.connect();
