@@ -1,0 +1,19 @@
+{
+  "name": "khaane-me-kya-hai-server",
+  "version": "1.0.0",
+  "description": "Backend API for Khaane Me Kya Hai",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongodb": "^6.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
