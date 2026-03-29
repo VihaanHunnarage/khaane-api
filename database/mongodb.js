@@ -16,8 +16,8 @@ async function connectDB() {
       maxPoolSize: 10,
       minPoolSize: 5,
       tls: true,
-      tlsAllowInvalidCertificates: false,
-      serverSelectionTimeoutMS: 5000
+      tlsAllowInvalidCertificates: true,
+      serverSelectionTimeoutMS: 10000
     });
     
     await client.connect();
