@@ -13,22 +13,9 @@ router.post('/', async (req, res) => {
     const collection = db.collection(COLLECTION);
     
     const {
-      sellerId,
-      sellerName,
-      sellerApartment,
-      name,
-      category,
-      description,
-      price,
-      quantity,
-      prepTime,
-      image,
-      dietaryType,
-      orderTimeStart,
-      orderTimeEnd,
-      deliveryTimeStart,
-      deliveryTimeEnd,
-      allergens
+      sellerId, sellerName, sellerApartment, name, category,
+      description, price, quantity, prepTime, image, dietaryType,
+      orderTimeStart, orderTimeEnd, deliveryTimeStart, deliveryTimeEnd, allergens
     } = req.body;
 
     if (!name || !price || !quantity || !sellerId) {
@@ -39,26 +26,15 @@ router.post('/', async (req, res) => {
     }
 
     const newListing = {
-      sellerId,
-      sellerName: sellerName || '',
-      sellerApartment: sellerApartment || '',
-      name,
-      category: category || 'lunch',
-      description: description || '',
-      price: parseFloat(price),
-      quantity: parseInt(quantity),
-      prepTime: prepTime || 30,
-      rating: 0,
-      image: image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+      sellerId, sellerName: sellerName || '', sellerApartment: sellerApartment || '',
+      name, category: category || 'lunch', description: description || '',
+      price: parseFloat(price), quantity: parseInt(quantity), prepTime: prepTime || 30,
+      rating: 0, image: image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
       dietaryType: dietaryType || 'veg',
-      orderTimeStart: orderTimeStart || '',
-      orderTimeEnd: orderTimeEnd || '',
-      deliveryTimeStart: deliveryTimeStart || '',
-      deliveryTimeEnd: deliveryTimeEnd || '',
-      allergens: allergens || {},
-      isAvailable: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      orderTimeStart: orderTimeStart || '', orderTimeEnd: orderTimeEnd || '',
+      deliveryTimeStart: deliveryTimeStart || '', deliveryTimeEnd: deliveryTimeEnd || '',
+      allergens: allergens || {}, isAvailable: true,
+      createdAt: new Date(), updatedAt: new Date()
     };
 
     const result = await collection.insertOne(newListing);
@@ -89,7 +65,6 @@ router.get('/', async (req, res) => {
     if (available === 'true') filter.isAvailable = true;
     
     const listings = await collection.find(filter).sort({ createdAt: -1 }).toArray();
-
     res.json({ success: true, count: listings.length, data: listings });
 
   } catch (error) {
@@ -103,13 +78,11 @@ router.get('/:id', async (req, res) => {
   try {
     const db = getDB();
     const collection = db.collection(COLLECTION);
-    
     const listing = await collection.findOne({ _id: new ObjectId(req.params.id) });
 
     if (!listing) {
       return res.status(404).json({ success: false, message: 'Listing not found' });
     }
-
     res.json({ success: true, data: listing });
 
   } catch (error) {
@@ -123,10 +96,8 @@ router.put('/:id', async (req, res) => {
   try {
     const db = getDB();
     const collection = db.collection(COLLECTION);
-    
     const updates = { ...req.body, updatedAt: new Date() };
-    delete updates._id;
-    delete updates.createdAt;
+    delete updates._id; delete updates.createdAt;
     
     const result = await collection.updateOne(
       { _id: new ObjectId(req.params.id) },
@@ -136,7 +107,6 @@ router.put('/:id', async (req, res) => {
     if (result.matchedCount === 0) {
       return res.status(404).json({ success: false, message: 'Listing not found' });
     }
-
     res.json({ success: true, message: 'Listing updated successfully' });
 
   } catch (error) {
@@ -150,13 +120,11 @@ router.delete('/:id', async (req, res) => {
   try {
     const db = getDB();
     const collection = db.collection(COLLECTION);
-    
     const result = await collection.deleteOne({ _id: new ObjectId(req.params.id) });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({ success: false, message: 'Listing not found' });
     }
-
     res.json({ success: true, message: 'Listing deleted successfully' });
 
   } catch (error) {
